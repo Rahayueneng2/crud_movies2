@@ -19,6 +19,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::resource('movies', MovieController::class);
+Route::get('/movies', [MovieController::class, 'index'])->name('movies');
 
 Route::resource('genres', GenreController::class);

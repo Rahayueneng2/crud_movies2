@@ -12,20 +12,15 @@ class MovieController extends Controller
     // Menampilkan daftar semua movie
     public function index()
     {
-        // Mendapatkan semua movie dari database
         $movies = Movie::all();
-
-        // Menampilkan view dengan data movie
         return view('movies.index', compact('movies'));
     }
+    
 
     // Menampilkan form untuk menambah movie baru
     public function create()
     {
-        // Mendapatkan semua genre dari database
         $genres = Genre::all(); 
-
-        // Mengirim data genres ke view
         return view('movies.create', compact('genres'));
     }
 
@@ -39,13 +34,12 @@ class MovieController extends Controller
             'poster' => 'required|url',
             'year' => 'required|integer',
             'available' => 'required|boolean',
-            'genre_id' => 'required|exists:genres,id',  // Memastikan genre_id valid
+            'genre_id' => 'required|exists:genres,id',
         ]);
 
         // Membuat objek Movie baru
         $movie = new Movie();
 
-        // Generate UUID secara otomatis untuk id
         $movie->id = Str::uuid();
 
         // Menyimpan data movie
@@ -56,7 +50,6 @@ class MovieController extends Controller
         $movie->available = $request->input('available');
         $movie->genre_id = $request->input('genre_id');
 
-        // Menyimpan movie ke database
         $movie->save();
 
         // Redirect ke halaman daftar movie
@@ -66,13 +59,10 @@ class MovieController extends Controller
     // Menampilkan form untuk mengedit movie
     public function edit($id)
     {
-        // Mencari movie berdasarkan id
         $movie = Movie::findOrFail($id);
 
-        // Mendapatkan semua genre dari database
         $genres = Genre::all();
 
-        // Mengirim data movie dan genres ke view
         return view('movies.edit', compact('movie', 'genres'));
     }
 
@@ -80,13 +70,13 @@ class MovieController extends Controller
     public function update(Request $request, $id)
     {
         // Validasi inputan
-        $request->validate([
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'synopsis' => 'required|string',
             'poster' => 'required|url',
             'year' => 'required|integer',
             'available' => 'required|boolean',
-            'genre_id' => 'required|exists:genres,id', // Memastikan genre_id valid
+            'genre_id' => 'required|exists:genres,id',
         ]);
 
         // Mencari movie berdasarkan id
@@ -100,23 +90,18 @@ class MovieController extends Controller
         $movie->available = $request->input('available');
         $movie->genre_id = $request->input('genre_id');
 
-        // Menyimpan perubahan ke database
         $movie->save();
 
-        // Redirect ke halaman daftar movie dengan pesan sukses
         return redirect()->route('movies.index')->with('success', 'Movie berhasil diperbarui!');
     }
 
     // Menghapus movie berdasarkan id
     public function destroy($id)
     {
-        // Mencari movie berdasarkan id
         $movie = Movie::findOrFail($id);
 
-        // Menghapus movie dari database
         $movie->delete();
 
-        // Redirect ke halaman daftar movie dengan pesan sukses
         return redirect()->route('movies.index')->with('success', 'Movie berhasil dihapus!');
     }
 }

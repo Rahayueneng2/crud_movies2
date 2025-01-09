@@ -20,5 +20,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/movies', [MovieController::class, 'index'])->name('movies');
-
 Route::resource('genres', GenreController::class);
+Route::get('/movies/{id}/edit', [MovieController::class, 'edit'])->name('movies.edit');
+Route::put('/movies/{id}', [MovieController::class, 'update'])->name('movies.update');

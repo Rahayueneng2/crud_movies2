@@ -1,72 +1,102 @@
 @extends('Layouts.index')
 
 @section('content')
+
+<!-- Success Message -->
+@if (session('success'))
+  <div id="alert-3" class="flex items-center p-4 mb-4 text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 mx-20" role="alert">
+    <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+      <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
+    </svg>
+    <span class="sr-only">Info</span>
+    <div class="ms-3 text-sm font-medium">
+      {{ session('success') }}
+    </div>
+    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700" data-dismiss-target="#alert-3" aria-label="Close">
+      <span class="sr-only">Close</span>
+      <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+      </svg>
+    </button>
+  </div>
+@endif
+
 <section class="container my-24 mx-auto">
+  <!-- Category Buttns -->
   <div class="flex justify-between px-20">
     <div class="flex items-center justify-center py-4 md:py-8 flex-wrap">
-      <button type="button"
-        class="text-blue-700 hover:text-white border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
-        All categories
-      </button>
+      <button type="button" class="text-blue-700 hover:text-white border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">All Categories</button>
+      <!-- Add more category buttons here if needed -->
     </div>
 
-    <!-- Tombol Tambah Movie -->
+    <!-- Add Movie Button -->
     <div class="flex items-center justify-center py-4 md:py-8 flex-wrap">
-      <a href="{{ route('movies.create') }}"
-        class="text-white hover:text-white border border-blue-600 bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
+      <a href="{{ route('movies.create') }}" class="text-white hover:text-white border border-blue-600 bg-blue-700 hover:bg-blue-500 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center me-3 mb-3 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-500 dark:bg-gray-900 dark:focus:ring-blue-800">
         Add Movie
       </a>
     </div>
   </div>
 
-  <!-- Tabel Movie -->
-  <div class="px-20">
-    <table class="min-w-full border border-gray-300 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <thead class="bg-gray-100 dark:bg-gray-700">
-        <tr>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">#</th>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">Title</th>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">Synopsis</th>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">Genre</th>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">Year</th>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">Available</th>
-          <th class="py-2 px-4 border-b dark:border-gray-600 text-left">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @forelse ($movies as $movie)
-        <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-          <td class="py-2 px-4 border-b dark:border-gray-600">{{ $loop->iteration }}</td>
-          <td class="py-2 px-4 border-b dark:border-gray-600">{{ $movie->title }}</td>
-          <td class="py-2 px-4 border-b dark:border-gray-600">{{ $movie->synopsis }}</td>
-          <td class="py-2 px-4 border-b dark:border-gray-600">{{ $movie->genre->name ?? 'No Genre' }}</td>
-          <td class="py-2 px-4 border-b dark:border-gray-600">{{ $movie->year }}</td>
-          <td class="py-2 px-4 border-b dark:border-gray-600">{{ $movie->available ? 'Yes' : 'No' }}</td>
-          <td class="py-2 px-4 border-b dark:border-gray-600">
-          <div class="flex space-x-4">
+  <!-- Movie Grid -->
+  <div class="grid grid-cols-2 md:grid-cols-3 gap-4 px-20">
+    @forelse ($movies as $movie)
+      <div class="relative">
+        <a href="#">
+          <img class="w-full h-64 object-cover rounded-lg" src="{{ asset('storage/posters/' . $movie->poster) }}" alt="{{ $movie->title }}">
+        </a>
+        <div class="absolute top-0 flex justify-between w-full">
+          <p class="bg-white px-3 py-2 rounded-br-lg text-lg">{{ $movie->year }}</p>
+          <p class="bg-white px-3 py-2 rounded-bl-lg text-lg">{{ $movie->genre->name ?? 'No Genre' }}</p>
+        </div>
+        <div class="py-2">
+          <h5 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $movie->title }}</h5>
+          <p class="font-normal text-gray-700 dark:text-gray-400">{{ Str::limit($movie->synopsis, 120) }}</p>
+        </div>
+
+        <!-- Buttons for Edit and Delete -->
+        <div class="flex justify-start gap-4 mt-5">
           <!-- Edit Button -->
-          <a href="{{ route('movies.edit', $movie->id) }}" class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+          <a href="{{ route('movies.edit', $movie->id) }}" class="text-yellow-400 hover:text-white border border-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:outline-none focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900">
             Edit
           </a>
+
           <!-- Delete Button -->
-          <form action="{{ route('movies.destroy', $movie->id) }}" method="POST" class="inline-block">
+          <form action="{{ route('movies.destroy', $movie->id) }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400" onclick="return confirm('Are you sure?')">
+            <button type="submit" onclick="return confirm('Are you sure you want to delete this movie?')" class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900">
               Delete
             </button>
           </form>
-          </div>
+        </div>
 
-          </td>
-        </tr>
-        @empty
-        <tr>
-          <td colspan="7" class="py-4 text-center text-gray-500 dark:text-gray-400">No movies found.</td>
-        </tr>
-        @endforelse
-      </tbody>
-    </table>
+      </div>
+    @empty
+      <!-- No Movies Found Message -->
+      <section class="container px-4 mx-auto absolute w-full">
+        <div class="flex items-center mt-6 text-center h-96">
+          <div class="flex flex-col w-full max-w-sm px-4 mx-auto">
+            <div class="p-3 mx-auto text-blue-500 bg-blue-100 rounded-full dark:bg-gray-800">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+              </svg>
+            </div>
+            <h1 class="mt-3 text-lg text-gray-800 dark:text-white">No Movies Found</h1>
+            <p class="mt-2 text-gray-500 dark:text-gray-400">We couldn't find any movies that matched your search.</p>
+            <div class="flex items-center mt-4 sm:mx-auto gap-x-3">
+              <button class="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Add a Movie</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    @endforelse
   </div>
+
 </section>
+
 @endsection

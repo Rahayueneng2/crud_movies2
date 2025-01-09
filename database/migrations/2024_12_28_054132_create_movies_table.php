@@ -28,7 +28,10 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void
-    {
-        Schema::dropIfExists('movies');
-    }
+{
+    // Hapus kolom 'image' jika migrasi di-rollback
+    Schema::table('movies', function (Blueprint $table) {
+        $table->dropColumn('image');
+    });
+}
 };
